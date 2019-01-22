@@ -3,7 +3,6 @@
     width: 500px;
     margin-top: 10px;
     padding: 12px;
-    border: 1px solid var(--paletteColor3);
     border-radius: 3px;
     background-color: var(--paletteColor2);
     word-wrap: break-word;
@@ -32,11 +31,12 @@
     & a {
         top: 15px;
         color: var(--paletteColor7);
+        font-weight: 700;
     }
 
     & time {
         top: 35px;
-        color: var(--palleteColor5);
+        color: var(--paletteColor5);
         font-size: 12px;
     }
 
@@ -45,7 +45,7 @@
         font-size: 14px;
     }
 
-    .cross {
+    & .cross {
         content: '';
         position: absolute;
         top: 12px;
