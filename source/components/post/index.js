@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 import avatar from 'theme/assets/lisa.png';
+import Styles from './styles.m.css';
 
 export default class Post extends Component {
     render() {
         return (
-            <section>
+            <section className = { Styles.post }>
                 <img src = { avatar } />
                 <a>Lisa Simpson</a>
                 <time>{moment().format('MMMM D hh:mm:ss a')}</time>
