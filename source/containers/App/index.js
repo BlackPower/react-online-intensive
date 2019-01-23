@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 
 import Feed from 'components/feed';
+import { Provider } from 'components/HOC/withProfile';
+
 import avatar from 'theme/assets/lisa.png';
 
 const options = {
@@ -15,7 +17,9 @@ const options = {
 export default class App extends Component {
     render() {
         return (
-            <Feed { ...options }/>
+            <Provider value = { options }>
+                <Feed />
+            </Provider>
         );
     }
 }
