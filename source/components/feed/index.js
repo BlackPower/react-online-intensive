@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import StatusBar from 'components/StatusBar';
 import Composer from 'components/Composer';
@@ -6,8 +7,15 @@ import Post from 'components/Post';
 import Spinner from 'components/Spinner';
 
 import Styles from './styles.m.css';
+import { getUniqueId } from 'instruments';
 
 export default class Feed extends Component {
+    constructor() {
+        super();
+
+        this._createPost = this._createPost.bind(this);
+    }
+
     state = {
         posts: [
             {id: '123', comment: 'Hi there!', created: 1526825076849 },
