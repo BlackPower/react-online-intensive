@@ -8,7 +8,6 @@ import Spinner from 'components/Spinner';
 
 import Styles from './styles.m.css';
 import { getUniqueID, delay } from 'instruments';
-//import { stat } from 'fs';
 
 export default class Feed extends Component {
     constructor() {
@@ -17,6 +16,7 @@ export default class Feed extends Component {
         this._createPost = this._createPost.bind(this);
         this._setPostsFetchingState = this._setPostsFetchingState.bind(this);
         this._likePost = this._likePost.bind(this);
+        this._removePost = this._removePost.bind(this);
     }
 
     state = {
@@ -78,6 +78,21 @@ export default class Feed extends Component {
         });
     }
 
+    async _removePost(id) {
+        const { posts } = this.state;
+        this._setPostsFetchingState(true);
+        await delay(1200);
+
+        const newPosts = posts.filter((post) => {
+            return post.id !== id;
+        });
+
+        this.setState({
+            posts:           newPosts,
+            isPostsFetching: false,
+        });
+    }
+
     render() {
         const { posts, isPostsFetching } = this.state;
         const postsJSX = posts.map((post) => {
@@ -86,6 +101,7 @@ export default class Feed extends Component {
                     key = { post.id }
                     { ...post }
                     _likePost = { this._likePost }
+                    _removePost = { this._removePost }
                 />
             );
         });
