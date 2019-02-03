@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { string, func, arrayOf, shape } from 'prop-types';
 import cx from 'classnames';
+import { withProfile } from 'components/HOC/withProfile';
 
 import Styles from './styles.m.css';
-import { withProfile } from '../HOC/withProfile';
 
 @withProfile
 export default class Like extends Component {

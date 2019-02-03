@@ -1,9 +1,9 @@
 // Core
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import { Provider } from 'components/HOC/withProfile';
 
 import Feed from 'components/feed';
-import { Provider } from 'components/HOC/withProfile';
 
 import avatar from 'theme/assets/lisa.png';
 
