@@ -10,15 +10,15 @@ import Styles from './styles.m.css';
 @withProfile
 export default class Post extends Component {
     static propTypes = {
-        _likePost:            func.isRequired,
-        _removePost:          func.isRequired,
-        comment:              string.isRequired,
-        created:              number.isRequired,
-        id:                   string.isRequired,
-        likes:                array.isRequired,
-        avatar:               string.isRequired,
-        currentUserFirstName: string.isRequired,
-        currentUserLastName:  string.isRequired,
+        _likePost:   func.isRequired,
+        _removePost: func.isRequired,
+        comment:     string.isRequired,
+        created:     number.isRequired,
+        id:          string.isRequired,
+        likes:       array.isRequired,
+        avatar:      string.isRequired,
+        firstName:   string.isRequired,
+        lastName:    string.isRequired,
     };
 
     _removePost = () => {
@@ -27,17 +27,26 @@ export default class Post extends Component {
         _removePost(id);
     }
 
+    _getCross = () => {
+        const { firstName, lastName, currentUserFirstName, currentUserLastName } = this.props;
+
+        return `${firstName} ${lastName}` === `${currentUserFirstName} ${currentUserLastName}`
+            ? <span
+                className = { Styles.cross }
+                onClick = { this._removePost } />
+            : null;
+    }
+
     render() {
-        const { comment, created, _likePost, id, likes, avatar, currentUserFirstName, currentUserLastName } = this.props;
+        const { comment, created, _likePost, id, likes, avatar, firstName, lastName } = this.props;
+
+        const cross = this._getCross();
 
         return (
             <section className = { Styles.post }>
-                <span
-                    className = { Styles.cross }
-                    onClick = { this._removePost }
-                />
+                {cross}
                 <img src = { avatar } />
-                <a>{`${ currentUserFirstName } ${ currentUserLastName}`}</a>
+                <a>{`${ firstName } ${ lastName}`}</a>
                 <time>{moment.unix(created).format('MMMM D hh:mm:ss a')}</time>
                 <p>{ comment }</p>
                 <Like
