@@ -159,9 +159,8 @@ export default class Feed extends Component {
             composer,
             1,
             { opacity: 0, rotationX: 50 },
-            { opacity: 1, rotationX: 0 }
+            { opacity: 1, rotationX: 0 },
         );
-        console.log(composer);
     }
 
     render() {
