@@ -2,11 +2,15 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Composer } from './';
 
+const comment = 'Merry christmas!';
+const avatar = '/avatar.png';
+const currentUserFirstName = 'User Name';
+
 const props = {
     _createPost: jest.fn(),
+    avatar,
+    currentUserFirstName,
 };
-
-const comment = 'Merry christmas!';
 
 const initialState = {
     comment: '',
@@ -19,6 +23,7 @@ const updatedState = {
 const result = mount(<Composer { ...props } />);
 
 const _submitCommentSpy = jest.spyOn(result.instance(), '_submitComment');
+const _submitOnEnterSpy = jest.spyOn(result.instance(), '_submitOnEnter');
 const _handleFormSubmitSpy = jest.spyOn(result.instance(), '_handleFormSubmit');
 
 describe('composer component:', () => {
@@ -81,7 +86,7 @@ describe('composer component:', () => {
         expect(result.state()).toEqual(initialState);
     });
 
-    test('_createPost prop should be invoked once after from submission', () => {
+    test('_createPost prop should be invoked once after form submission', () => {
         expect(props._createPost).toHaveBeenCalledTimes(1);
     });
 
@@ -89,5 +94,46 @@ describe('composer component:', () => {
         expect(_submitCommentSpy).toHaveBeenCalledTimes(1);
         expect(_handleFormSubmitSpy).toHaveBeenCalledTimes(1);
     });
-});
 
+    test('_createPost prop should not be invoked after form submission with empty comment', () => {
+        _submitCommentSpy.mockClear();
+        props._createPost.mockClear();
+        result.find('form').simulate('submit');
+
+        expect(props._createPost).not.toHaveBeenCalled();
+        expect(_submitCommentSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test('<img> should have correct value for attribute src', () => {
+        expect(result.find('img').prop('src')).toEqual(avatar);
+    });
+
+    test('<textarea> should have correct value for attribute placeholder', () => {
+        expect(result.find('textarea').prop('placeholder')).toEqual(`What's on your mind, ${ currentUserFirstName}?`);
+    });
+
+    test('should handle textarea <keyPress> event', () => {
+        _submitCommentSpy.mockClear();
+        result.setState({
+            comment,
+        });
+        result.find('textarea').simulate('keyPress', {
+            key: 'Enter',
+        });
+
+        expect(result.state()).toEqual(initialState);
+        expect(_submitOnEnterSpy).toHaveBeenCalledTimes(1);
+        expect(_submitCommentSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not handle textarea <keyPress> event if key not Enter', () => {
+        _submitOnEnterSpy.mockClear();
+        _submitCommentSpy.mockClear();
+        result.find('textarea').simulate('keyPress', {
+            key: 'space',
+        });
+
+        expect(_submitOnEnterSpy).toHaveBeenCalledTimes(1);
+        expect(_submitCommentSpy).not.toHaveBeenCalled();
+    });
+});
