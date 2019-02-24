@@ -3,7 +3,6 @@ import { Transition, CSSTransition, TransitionGroup } from 'react-transition-gro
 import { fromTo } from 'gsap';
 
 import { withProfile } from '../HOC/withProfile';
-import StatusBar from 'components/StatusBar';
 import Composer from 'components/Composer';
 import Post from 'components/Post';
 import Spinner from 'components/Spinner';
@@ -194,7 +193,6 @@ export default class Feed extends Component {
         return (
             <section className = { Styles.feed }>
                 <Spinner isSpinning = { isPostsFetching } />
-                <StatusBar />
                 <Transition
                     appear
                     in
