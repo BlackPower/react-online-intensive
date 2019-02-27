@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import StatusBar from 'components/StatusBar';
+import Login from 'components/Login';
 
 import Catcher from 'components/Catcher';
 import Feed from 'components/Feed';
@@ -19,24 +20,46 @@ const options = {
 
 @hot(module)
 export default class App extends Component {
+    state = {
+        isLogedIn: false,
+    }
+
+    _login = () => {
+        this.setState({
+            isLogedIn: true,
+        });
+    }
+
+    _logout = () => {
+        this.setState({
+            isLogedIn: false,
+        });
+    }
+
     render() {
-        return (
-            <Catcher>
-                <Provider value = { options }>
-                    <StatusBar />
-                    <Switch>
-                        <Route
-                            component = { Feed }
-                            path = '/feed'
-                        />
-                        <Route
-                            component = { Profile }
-                            path = '/profile'
-                        />
-                        <Redirect to = '/feed' />
-                    </Switch>
-                </Provider>
-            </Catcher>
-        );
+        const { isLogedIn } = this.state;
+
+        if (isLogedIn) {
+            return (
+                <Catcher>
+                    <Provider value = { options }>
+                        <StatusBar _logout = { this._logout }/>
+                        <Switch>
+                            <Route
+                                component = { Feed }
+                                path = '/feed'
+                            />
+                            <Route
+                                component = { Profile }
+                                path = '/profile'
+                            />
+                            <Redirect to = '/feed' />
+                        </Switch>
+                    </Provider>
+                </Catcher>
+            );
+        }
+
+        return <Login _login = { this._login }/>;
     }
 }
